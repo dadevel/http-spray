@@ -1,5 +1,15 @@
 # http-spray
 
+## Setup
+
+Install with [pipx](https://github.com/pypa/pipx/).
+
+~~~ bash
+pipx install git+https://github.com/dadevel/http-spray.git
+~~~
+
+## Usage
+
 Brute force Tomcat manager.
 
 ~~~ bash
