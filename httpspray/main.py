@@ -13,16 +13,29 @@ from requests import Response
 import requests
 
 
+class AuthenticationError(Exception):
+    def __init__(self, msg: str, response: Response) -> None:
+        super().__init__(msg)
+        self.response = response
+
+
 def basic_auth(opts: Namespace, username: str, password: str) -> Response:
-    return requests.post(opts.target, auth=HTTPBasicAuth(username, password), headers={'User-Agent': opts.user_agent})
+    response = requests.post(opts.target, auth=HTTPBasicAuth(username, password), headers={'User-Agent': opts.user_agent})
+    if 'basic' not in response.headers.get('WWW-Authenticate', '').lower():
+        raise AuthenticationError('basic authentication not supported', response)
+    return response
 
 
 def ntlm_auth(opts: Namespace, username: str, password: str) -> Response:
-    return requests.post(opts.target, auth=HttpNtlmAuth(username, password), headers={'User-Agent': opts.user_agent})
+    response = requests.post(opts.target, auth=HttpNtlmAuth(username, password), headers={'User-Agent': opts.user_agent})
+    if 'ntlm' not in response.headers.get('WWW-Authenticate', '').lower():
+        raise AuthenticationError('ntlm authentication not supported', response)
+    return response
 
 
 def oauth_password_grant(opts: Namespace, username: str, password: str) -> Response:
-    return requests.post(opts.target, data=dict(client_id=opts.client_id, scope=opts.scope, username=username, password=password, grant_type='password', resource=opts.resource), headers={'User-Agent': opts.user_agent})
+    response = requests.post(opts.target, data=dict(client_id=opts.client_id, scope=opts.scope, username=username, password=password, grant_type='password', resource=opts.resource), headers={'User-Agent': opts.user_agent})
+    return response
 
 
 AUTHENTICATION_METHODS = dict(basic=basic_auth, ntlm=ntlm_auth, oauth=oauth_password_grant)
@@ -66,8 +79,12 @@ def main() -> None:
         entrypoint.print_help()
         exit(1)
 
-    for result in spray(opts):
-        print(json.dumps(result))
+    try:
+        for result in spray(opts):
+            print(json.dumps(result))
+    except AuthenticationError as e:
+        print(json.dumps(dict(error=str(e), status_code=e.response.status_code, size=len(e.response.content), headers=dict(e.response.headers))))
+        exit(1)
 
 
 def spray(opts: Namespace) -> Generator[dict[str, Any], None, None]:
