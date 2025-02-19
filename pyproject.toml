@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "http-spray"
-version = "0.0.3"
+version = "0.0.4"
 description = ""
 authors = ["dadevel <dadevel@disroot.org>"]
 license = "MIT"
@@ -12,7 +12,7 @@ http-spray = "httpspray.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-requests = "^2.32.3"
+requests = {version="^2.32.3", extras=["socks"]}
 requests-ntlm = "^1.3.0"
 
 [build-system]
