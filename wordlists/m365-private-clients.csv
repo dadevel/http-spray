@@ -1,0 +1,92 @@
+00000002-0000-0000-c000-000000000000,Windows Azure Active Directory
+00000002-0000-0ff1-ce00-000000000000,Office 365 Exchange Online
+00000003-0000-0ff1-ce00-000000000000,Office 365 SharePoint Online
+00000004-0000-0ff1-ce00-000000000000,Skype for Business Online
+00000007-0000-0000-c000-000000000000,Dataverse
+00000007-0000-0ff1-ce00-000000000000,Microsoft Exchange Online Protection
+0000000c-0000-0000-c000-000000000000,Microsoft App Access Panel
+01fc33a7-78ba-4d2f-a4b7-768e336e890e,MS-PIM
+0469d4cd-df37-4d93-8a61-f8c75b809164,Policy Administration Service
+0d38933a-0bbd-41ca-9ebd-28c4b5ba7cb7,Office365 Zoom
+0f698dd4-f011-4d23-a33e-b36416dcb1e6,OfficeClientService
+1996141e-2b07-4491-927a-5a024b335c78,Microsoft Teams UIS
+19db86c3-b2b9-44cc-b339-36da233a3be2,ms_myaccess
+1e70cd27-4707-4589-8ec5-9bd20c472a46,Skype Presence Service
+1f5530b3-261a-47a9-b357-ded261e17918,Azure Multi-Factor Auth Connector
+257601fd-462f-4a21-b623-7f719f0f90f4,Centralized Deployment
+26a18ebc-cdf7-4a6a-91cb-beb352805e81,Skype Teams Calling API Service
+270efc09-cd0d-444b-a71f-39af4910ec45,Windows Cloud Login
+3184af01-7a88-49e0-8b55-8ecdce0aa950,Azure Cost Management XCloud
+341b7f3d-69b3-47f9-9ce7-5b7f4945fdbd,Azure Support - Network Watcher
+37182072-3c9c-4f6a-a4b3-b3f91cacffce,AzureSupportCenter
+394866fc-eedb-4f01-8536-3ff84b16be2a,Microsoft People Cards Service
+396e7f4b-41ea-4851-b04d-65de6cf1b4a3,Azure AD Identity Governance - SPO Management
+3aa5c166-136f-40eb-9066-33ac63099211,O365 Customer Monitoring
+4345a7b9-9a63-4910-a426-35363201d503,o365suiteux
+4660504c-45b3-4674-a709-71951a6b0763,Microsoft Invitation Acceptance Portal
+486c78bf-a0f7-45f1-92fd-37215929e116,GatewayRP
+48af08dc-f6d2-435f-b2a7-069abd99c086,Connectors
+4c4f550b-42b2-4a16-93f9-fdb9e01bb6ed,Targeted Messaging Service
+589d5083-6f11-4d30-a62a-a4b316a14abf,Azure Key Vault Managed HSM
+58c746b0-a0b0-4647-a8f6-12dde5981638,Azure AD Identity Governance Insights
+66244124-575c-4284-92bc-fdd00e669cea,IAMTenantCrawler
+66a88757-258c-4c72-893c-3e8bed4d6899,Office 365 Search Service
+66c23536-2118-49d3-bc66-54730b057680,Skype Core Calling Service
+67e3df25-268a-4324-a550-0de1c7f97287,Microsoft Office Web Apps Service
+6d057c82-a784-47ae-8d12-ca7b38cf06b4,Networking-MNC
+6da466b6-1d13-4a2c-97bd-51a99e8d4d74,Exchange Office Graph Client for AAD - Interactive
+6f82282e-0070-4e78-bc23-e6320c5fa7de,Microsoft Discovery Service
+7557eb47-c689-4224-abcf-aef9bd7573df,Skype for Business
+797f4846-ba00-4fd7-ba43-dac1f8f63013,Windows Azure Service Management API
+7c33bfcb-8d33-48d6-8e60-dc6404003489,Network Watcher
+810dcf14-1858-4bf2-8134-4c369fa3235b,Azure AD Identity Governance - Entitlement Management
+870c4f2e-85b6-4d43-bdda-6ed9a579b725,Microsoft Information Protection Sync Service
+8cae6e77-e04e-42ce-b5cb-50d82bce26b1,Microsoft Policy Insights Provider Data Plane
+8e0e8db5-b713-4e91-98e6-470fed0aa4c2,Microsoft Azure Signup Portal
+8edd93e1-2103-40b4-bd70-6e34e586362d,Windows Azure Security Resource Provider
+8ee8fdad-f234-4243-8f3b-15c294843740,Microsoft Threat Protection
+93625bc8-bfe2-437a-97e0-3d0060024faa,Microsoft password reset service
+978877ea-b2d6-458b-80c7-05df932f3723,Microsoft Teams AuditService
+981f26a1-7f43-403b-a875-f8b09b8cd720,Azure Multi-Factor Auth Client
+982bda36-4632-4165-a46a-9863b1bbcf7d,O365 Demeter
+98db8bd6-0cc0-4e67-9de5-f187f1cd1b41,Microsoft Substrate Management
+996def3d-b36c-4153-8607-a6fd3c01b89f,Dynamics 365 Business Central
+9d06afd9-66c9-49a6-b385-ea7509332b0b,O365SBRM Service
+9ea1ad79-fdb6-4f9a-8bc3-2b70f96e34c7,Bing
+a0551534-cfc9-4e1f-9a7a-65093b32bb38,AzureLockbox
+a0be0c72-870e-46f0-9c49-c98333a996f7,AzureDnsFrontendApp
+a47591ab-e23e-4ffa-9e1b-809b9067e726,Microsoft Teams User Profile Search Service
+a68e1e61-ad4f-45b6-897d-0a1ea8786345,Office365 Shell WCSS-Server Default
+a6aa9161-5291-40bb-8c5c-923b567bee3b,Storage Resource Provider
+aa9ecb1e-fd53-4aaa-a8fe-7a54de2c1334,Office 365 Configure
+ab27a73e-a3ba-4e43-8360-8bcc717114d8,Microsoft.OfficeModernCalendar
+b1379a75-ce5e-4fa3-80c6-89bb39bf646c,Microsoft Teams Chat Aggregator
+b2cc270f-563e-4d8a-af47-f00963a71dcd,OneProfile Service
+b4bddae8-ab25-483e-8670-df09b9f1d0ea,Signup
+b692184e-b47f-4706-b352-84b288d2d9ee,Microsoft.MileIQ.RESTService
+b6b84568-6c01-4981-a80f-09da9a20bbed,Microsoft Invoicing
+ba9ff945-a723-4ab5-a977-bd8c9044fe61,My Staff
+bb2a2e3a-c5e7-4f0a-88e0-8e01fd3fc1f4,CPIM Service
+bb8f18b0-9c38-48c9-a847-e1ef3af0602d,Microsoft.Azure.ActiveDirectoryIUX
+bf26f092-3426-4a99-abfb-97dad74e661a,Azure AD Identity Governance
+bf4fa6bf-d24c-4d1c-8cfd-12063dd646b2,AADPremiumService
+c066d759-24ae-40e7-a56f-027002b5d3e4,M365DataAtRestEncryption
+c44b4083-3bb0-49c1-b47d-974e53cbdf3c,Azure Portal
+c5b17a4f-cc6f-4649-9480-684280a2af3a,aciapi
+cc15fd57-2c6c-4117-a88c-83b1d56b4bbe,Microsoft Teams Services
+cdccd920-384b-4a25-897d-75161a4b74c1,Skype Teams Firehose
+cfa8b339-82a2-471a-a3c9-0fc0be7a4093,Azure Key Vault
+d52792f4-ba38-424d-8140-ada5b883f293,AAD Terms Of Use
+d7097cd1-c779-44d0-8c71-ab1f8386a97e,Microsoft Office Licensing Service Agents
+d73f4b35-55c9-48c7-8b10-651f6f2acb2e,MCAPI Authorization Prod
+d8c767ef-3e9a-48c4-aef9-562696539b39,Request Approvals Read Platform
+db55028d-e5ba-420f-816a-d18c861aefdf,Microsoft Office Licensing Service vNext
+dbc36ae1-c097-4df9-8d94-343c3d091a76,Service Encryption
+de096ee1-dae7-4ee1-8dd5-d88ccc473815,MileIQ Admin Center
+e3335adb-5ca0-40dc-b8d3-bedc094e523b,SubscriptionRP
+e406a681-f3d4-42a8-90b6-c2b029497af1,Azure Storage
+ea890292-c8c8-4433-b5ea-b09d0668e1a6,Azure Credential Configuration Endpoint Service
+f0ae4899-d877-4d3c-ae25-679e38eea492,AAD App Management
+f7069a8d-9edc-4300-b365-ae53c9627fc4,Microsoft.MileIQ.Dashboard
+fc68d9e5-1f76-45ef-99aa-214805418498,Azure AD Identity Protection
+fc780465-2017-40d4-a0c5-307022471b92,WindowsDefenderATP

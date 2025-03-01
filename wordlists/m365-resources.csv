@@ -1,0 +1,19 @@
+https://graph.windows.net,AzureAD Graph
+https://vault.azure.net,Azure Key Vault
+https://management.azure.com,Azure Resource Manager
+https://outlook-sdf.office.com,Exchange Online
+https://outlook.office365.com,Exchange Online
+https://graph.microsoft.com,Microsoft Graph
+https://onenote.com,OneNote
+https://api.diagnostics.office.com,Sara
+https://api.skypeforbusiness.com,Skype for Business
+https://api.spaces.skype.com,Skype Spaces
+https://api.yammer.com,Yammer
+https://database.windows.net,
+https://datacatalog.azure.com,
+https://management.core.windows.net,
+https://manage.office.com,
+https://msmamservice.api.application,
+https://officeapps.live.com,
+https://proxy.cloudwebappproxy.net/registerapp,
+https://webshell.suite.office.com,

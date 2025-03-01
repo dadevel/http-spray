@@ -1,0 +1,102 @@
+00000003-0000-0000-c000-000000000000,Microsoft Graph
+00000006-0000-0ff1-ce00-000000000000,Microsoft Office 365 Portal
+00000014-0000-0000-c000-000000000000,Microsoft.Azure.SyncFabric
+00b41c95-dab0-4487-9791-b9d2c32c80f2,Office 365 Management
+05a65629-4c1b-48c1-a78b-804c4abdd4af,Microsoft Cloud App Security
+06c6433f-4fb8-4670-b2cd-408938296b8e,AAD Pin Redemption
+0a0a29f9-0a25-49c7-94bf-c53c3f8fa69d,Cortana Experience with O365
+0af06dc6-e4b5-4f28-818e-e78e62d137a5,Windows 365
+0bf30f3b-4a52-48df-9a82-234910c4a086,Microsoft Graph Change Tracking
+0c1307d4-29d6-4389-a11c-5cbe7f65d7fa,Azure Mobile App
+0f6edad5-48f2-4585-a609-d252b1c52770,AIGraphClient
+0fa37baf-7afc-4baf-ab2d-d5bb891d53ef,Microsoft Teams ATP Service
+11c174dc-1945-4a9a-a36b-c79a0f246b9b,Windows Azure Application Insights
+15689b28-1333-4213-bb64-38407dde8a5e,Microsoft Azure
+1651564e-7ce4-4d99-88be-0a65050d8dc3,Sync Client
+166f1b03-5b19-416f-a94b-1d7aa2d247dc,Office Hive
+1950a258-227b-4e31-a9cf-717495945fc2,Microsoft Azure PowerShell
+19947cfd-0303-466c-ac3c-fcc19a7a1570,Azure DNS
+1b730954-1685-4b74-9bfd-dac224a7b894,Azure AD PowerShell
+1d78a85d-813d-46f0-b496-dd72f50a3ec0,Microsoft Azure Policy Insights
+1e2ca66a-c176-45ea-a877-e87f7231e0ee,Microsoft B2B Admin Worker
+1e3e4475-288f-4018-a376-df66fd7fac5f,NetworkTrafficAnalyticsService
+1fec8e78-bce4-4aaf-ab1b-5451cc387264,Microsoft Teams
+224a7b82-46c9-4d6b-8db0-7360fb444681,Microsoft Modern Contact Master
+22d7579f-06c2-4baa-89d2-e844486adb9d,Cortana at Work Bing Services
+27922004-5251-4030-b22d-91ecd9a37ea4,Outlook Mobile
+29d9ed98-a469-4536-ade2-f981bc1d605e,Azure MDM
+2a0c3efa-ba54-4e55-bdc0-770f9e39e9ee,PowerBi Contentpack
+2a486b53-dbd2-49c0-a2bc-278bdfc30833,Cortana at Work Service
+2cf9eb86-36b5-49dc-86ae-9a63135dfa8c,Azure Traffic Manager and DNS
+2f3f02c9-5679-4a5c-a605-0de55b07d135,Office 365 Information Protection
+328fd23b-de6e-462c-9433-e207470a5727,NFV Resource Provider
+389b1b32-b5d5-43b2-bddc-84ce938d6737,Office Management
+38aa3b87-a06d-4817-b275–7a316988d93b,AAD CloudAP
+3c31d730-a768-4286-a972-43e9b83601cd,Demeter.WorkerRole
+3cf6df92-2745-4f6f-bbcf-19b59bcdb62a,Office 365 Client Admin
+3eb95cef-b10f-46fe-94e0-969a3d4c9292,Office 365 Import Service
+441509e5-a165-4363-8ee7-bcf0b7d26739,DWEngineV2
+45a330b1-b1ec-4cc1-9161-9f03992aa49f,Windows Store for Business
+47ee738b-3f1a-4fc7-ab11-37e4822b007e,Azure AD Application Proxy
+4813382a-8fa7-425e-ab75-3b753aab3abb,Microsoft Authenticator App
+4990cffe-04e8-4e8b-808a-1175604b879,Patner Dashboard
+4c8f074c-e32b-4ba7-b072-0f39d71daf51,IPSubstrate
+509e4652-da8d-478d-a730-e9d4a1996ca4,Azure Resource Graph
+56c1da01-2129-48f7-9355-af6d59d42766,Graph Connector Service
+57084ef3-d413-4087-a28f-f6f3b1ad7786,Branch Connect Web Service
+57fb890c-0dab-4253-a5e0-7188c88b2bb4,Office Online2
+5d661950-3475-41cd-a2c3-d671a3162bc1,Microsoft Outlook
+5da7367f-09c8-493e-8fd4-638089cddec3,CABProvisioning
+5e3ce6c0-2b1f-4285-8d4b-75ee78787346,Teams Web Client
+601d4e27-7bb3-4dee-8199-90d47d527e1c,Office Change Management
+603b8c59-ba28-40ff-83d1-408eee9a93e5,Verifiable Credentials Issuer Service
+61ae9cd9-7bca-458c-affc-861e2f24ba3b,Windows Update for Business Deployment Service
+65d91a3d-ab74-42e6-8a2f-0add61688c74,Microsoft Approval Management
+6c7e8096-f593-4d72-807f-a5f86dcc9c77,Intune MAM
+6f0478d5-61a3-4897-a2f2-de09a5a90c7f,WindowsUpdate-Service
+6f7e0f60-9401-4f5b-98e2-cf15bd5fd5e3,AAD Brokerplugin
+74658136-14ec-4630-ad9b-26e160ff0fc6,AD Ibiza UX
+7492bca1-9461-4d94-8eb8-c17896c61205,Azure Graph Client
+765fe668-04e7-42ba-aec0-2c96f1d8b652,Exchange Office Graph Client for AAD - Noninteractive
+7c99d979-3b9c-4342-97dd-3239678fb300,Data Classification Service
+7f59a773-2eaf-429c-a059-50fc5bb28b44,MSDocs Tryit
+80dbdb39-4f33-4799-8b6f-711b5e3e61b6,Billing RP
+81473081-50b9-469a-b9d8-303109583ecb,Cortana Runtime Service
+84070985-06ea-473d-82fe-eb82b4011c9d,Azure Management
+89bee1f7-5e6e-4d8a-9f3d-ecd601259da7,Web Shell Suite
+8b3391f4-af01-4ee8-b4ea-9871b2499735,O365 Secure Score
+8d3a7d3c-c034-4f19-a2ef-8412952a9671,Microsoft Office Licensing Service
+8fca0a66-c008-4564-a876-ab3ae0fd5cff,Microsoft.SMIT
+90f610bf-206d-4950-b61d-37fa6fd1b224,AAD RM
+925eb0d0-da50-4604-a19f-bd8de9147958,Groupies Web Service
+94c63fef-13a3-47bc-8074-75af8c65887a,Office Delve
+9bc3ab49-b65d-410a-85ad-de819febfddc,SharePoint Management
+a04b07795-8ddb-461a-bbee-02f9e1bf7b46,Azure CLI
+a0c73c16-a7e3-4564-9a95-2bdf47383716,Exchange Management Powershell
+a164aee5-7d0a-46bb-9404-37421d58bdf7,Microsoft Teams AuthSvc
+a25dbca8-4e60-48e5-80a2-0664fdb5c9b6,Microsoft.MileIQ
+a3dfc3c6-2c7d-4f42-aeec-b2877f9bce97,Microsoft Azure AD Identity Protection
+a57aca87-cbc0-4f3c-8b9e-dc095fdc8978,IAM Supportability
+ab3be6b7-f5df-413d-ac2d-abf1e3fd9c0b,Microsoft Teams Graph Service
+ab9b8c07-8f02-4f72-87fa-80105867a763,OneDrive SyncEngine
+abfa0a7c-a6b6-4736-8310-5855508787cd,Microsoft Azure App Service
+b55b276d-2b09-4ad2-8de5-f09cf24ffba9,Microsoft Teams - Teams And Channels Service
+b7912db9-aa33-4820-9d4f-709830fdd78f,ConnectionsService
+b90d5b8f-5503-4153-b545-b31cecfaece2,AAD Join
+bc59ab01-8403-45c6-8796-ac3ef710b3e3,Outlook Online Add-in App
+bf9fc203-c1ff-4fd4-878b-323642e462ec,Jarvis Transaction Service
+c5393580-f805-4401-95e8-94b7a6ef2fc2,Office 365 Management APIs
+c728155f-7b2a-4502-a08b-b8af9b269319,AAD Request Verification Service - PROD
+cbfda01c-c883-45aa-aedc-e7a484615620,Microsoft Windows AutoPilot Service API
+d3590ed6-52b3-4102-aeff-aad2292ab01c,Microsoft Office
+d6fdaa33-e821-4211-83d0-cf74736489e1,Microsoft Service Trust
+d88a361a-d488-4271-a13f-a83df7dd99c2,IDML Graph Resolver Service and CAD
+d924a533-3729-4708-b3e8-1d2445af35e3,Skype (disabled)
+de0853a1-ab20-47bd-990b-71ad5077ac7b,Windows Config Designer
+df09ff61-2178-45d8-888c-4210c1c7b0b2,O365 UAP Processor
+e3583ad2-c781-4224-9b91-ad15a8179ba0,Microsoft.ExtensibleRealUserMonitoring
+e8bdeda8-b4a3-4eed-b307-5e2456238a77,Office365 Shell SS-Server
+eace8149-b661-472f-b40d-939f89085bd4,Substrate Instant Revocation Pipeline
+ec245c98-4a90-40c2-955a-88b727d97151,Azure AD Identity Governance - Directory Management
+f8d98a96-0999-43f5-8af3-69971c7bb423,Apple Internet Accounts
+fc03f97a-9db0-4627-a216-ec98ce54e018,Azure AD Notification
