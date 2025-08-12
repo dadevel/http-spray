@@ -64,6 +64,10 @@ def main() -> None:
         entrypoint.print_help()
         exit(1)
 
+    if opts.jitter > opts.delay:
+        print('error: delay must be larger than jitter')
+        exit(1)
+
     if opts.user_agent:
         opts.user_agents = randomize(opts.user_agent)
     else:
