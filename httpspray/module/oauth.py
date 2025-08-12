@@ -32,6 +32,6 @@ class OAuthSpray(BaseSpray):
             return dict(status='valid', access_token=data.get('access_token'), refresh_token=data.get('refresh_token'), scope=data.get('scope'))
         elif response.status_code == 400:
             data = response.json()
-            return dict(status='invalid', error=data.get('error'), message=data.get('error_description'))
+            return dict(status='invalid', message=data.get('error_description') or data.get('error'))
         else:
             return dict(status='unknown')

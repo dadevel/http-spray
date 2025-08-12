@@ -32,15 +32,15 @@ class MSAuthSpray(OAuthSpray):
             data = response.json()
             message = data.get('error_description')
             if not message:
-                return dict(status='unknown', error=data.get('error'), message=message)
+                return dict(status='error', message=f'response has no error description: {data!r}')
             words = message.split(':', maxsplit=1)
             if len(words) != 2:
-                return dict(status='unknown', error=data.get('error'), message=message)
+                return dict(status='error', message=f'response error description has unexpected format: {message!r}')
             if not words[0].startswith('AADSTS'):
-                return dict(status='unknown', error=data.get('error'), message=message)
+                return dict(status='error', message=f'response error code has unexpected format: {words[0]!r}')
             if words[0] not in error_table:
-                return dict(status='unknown', error=data.get('error'), message=message)
+                return dict(status='unknown', message=f'response error code is unknown: {words[0]!r}')
             result = error_table[words[0]]
-            return dict(status=result[0], error=data.get('error'), message=result[1])
+            return dict(status=result[0], message=result[1])
         else:
             return dict(status='unknown')

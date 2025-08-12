@@ -36,10 +36,10 @@ def main() -> None:
     entrypoint.add_argument('-t', '--target', type=urllib.parse.urlparse, required=True, metavar='URL')
     entrypoint.add_argument('-m', '--method', choices=tuple(AUTHENTICATION_METHODS), required=True, metavar='|'.join(AUTHENTICATION_METHODS))
     entrypoint.add_argument('--proxy', default=None, metavar='URL')
-    entrypoint.add_argument('--threads', type=uint, default=1, metavar='UINT')
-    entrypoint.add_argument('--delay', type=uint, default=0, metavar='SECONDS')
-    entrypoint.add_argument('--jitter', type=uint, default=0, metavar='SECONDS')
-    entrypoint.add_argument('--notify', default=None, metavar='URL')
+    entrypoint.add_argument('--threads', type=uint, default=1, metavar='UINT', help='Default: 1')
+    entrypoint.add_argument('--delay', type=uint, default=0, metavar='SECONDS', help='Average delay between requests')
+    entrypoint.add_argument('--jitter', type=uint, default=0, metavar='SECONDS', help='Randomizes delay between delay-jitter and delay+jitter')
+    entrypoint.add_argument('--lock-treshold', type=int, default=10, metavar='UINT', help='Abort after N lockouts. Default: 10')
     group = entrypoint.add_argument_group('auth')
     group.add_argument('-u', '--user', action='append', default=[], metavar='USER|FILE')
     group.add_argument('-p', '--password', action='append', default=[], metavar='PASS|FILE')
@@ -81,40 +81,31 @@ def main() -> None:
     else:
         opts.resources = randomize([])
 
-    if opts.notify:
-        print(json.dumps(dict(topic=opts.notify), separators=(',', ':')), flush=True)
-
     cls = AUTHENTICATION_METHODS[opts.method]
     instance = cls(opts)
-    response = instance.check()
-    if response:
-        log(response, headers=dict(response.headers))
-        exit(1)
+    try:
+        response = instance.check()
+        if response:
+            log(response, status='error', message='initial check failed', headers=dict(response.headers))
+            exit(1)
+    except Exception as e:
+            log_raw(status='error', mssage=str(e))
+            exit(1)
     credentials = itertools.chain(
         (line.split(':', maxsplit=1) for line in generate(opts.credential)),
-        ((username, password) for username in generate(opts.user) for password in generate(opts.password)),
+        ((username, password) for password in generate(opts.password) for username in generate(opts.user)),
     )
-    valid_count = 0
     lock_count = 0
     with ThreadPoolExecutor(max_workers=opts.threads) as pool:
         for response, result in pool.map(instance.spray, credentials):
             log(response, **result)
-
             if result['status'] == 'locked':
-                lock_count = min(10, lock_count + 1)
+                lock_count = min(opts.lock_treshold, lock_count + 1)
             else:
                 lock_count = max(0, lock_count - 1)
-            if lock_count >= 10:
-                notify(opts, 'aborted due to repeated lockouts')
+            if lock_count >= opts.lock_treshold:
+                log_raw(status='error', message='aborted due to repeated lockouts')
                 break
-
-            if opts.notify and result['status'] == 'valid':
-                valid_count += 1
-                notify(opts, f'success #{valid_count}')
-
-
-def notify(opts: Namespace, message: str) -> None:
-    requests.post(opts.notify, data=message)
 
 
 def generate(args: list[str]) -> list[str]:
@@ -133,14 +124,18 @@ def generate(args: list[str]) -> list[str]:
     return results
 
 
-def randomize(args: list[str]) -> Generator[str]:
+def randomize(args: list[str]) -> Generator[str, None, None]:
     values = generate(args)
     while True:
         yield random.choice(values)
 
 
-def log(response: Response, **kwargs: Any) -> None:
-    print(json.dumps(dict(kwargs, status_code=response.status_code, size=len(response.content), time=response.elapsed.total_seconds()), separators=(',', ':')), flush=True)
+def log(response: Response, *, status: str|None, message: str|None = None, **kwargs: Any) -> None:
+    log_raw(status=status or 'unknown', message=message, **kwargs, status_code=response.status_code, size=len(response.content), time=response.elapsed.total_seconds())
+
+
+def log_raw(**kwargs: Any) -> None:
+    print(json.dumps(kwargs, separators=(',', ':')), flush=True)
 
 
 # undo path normalization applied by requests and urllib3

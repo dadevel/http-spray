@@ -23,4 +23,3 @@ class BasicSpray(BaseSpray):
             return dict(status='valid')
         else:
             return dict(status='invalid')
-
