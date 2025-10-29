@@ -112,15 +112,14 @@ def generate(args: list[str]) -> list[str]:
     results = []
     for arg in args:
         path = Path(arg)
-        if path.exists():
-            if path.suffix == '.csv':
-                with open(path) as file:
-                    for row in csv.reader(file):
-                        results.append(row[0])
-            else:
-                results.extend(line.rstrip() for line in path.read_text().splitlines())
-        else:
+        if not path.is_file():
             results.append(arg)
+        elif path.suffix == '.csv':
+            with open(path) as file:
+                for row in csv.reader(file):
+                    results.append(row[0])
+        else:
+            results.extend(line.rstrip() for line in path.read_text().splitlines())
     return results
 
 
