@@ -45,8 +45,8 @@ http-spray -t https://mail.corp.com/rpc/ -m ntlm ./users.txt -p 'Summer2023#' | 
 
 > **Note:**
 >
-> The RPC endpoint returns 404 for successful logins.
-> For alternate endpoints see [here](https://github.com/dadevel/wordlists/raw/main/windows/exchange.txt).
+> The endpoint `/autodiscover/autodiscover.xml` returns status 200 for successful logins, but `/rpc/` returns 404 in this case.
+> For additional endpoints see [here](https://github.com/dadevel/wordlists/raw/main/windows/exchange.txt).
 >
 > Furthermore Exchange accepts the following username formats: `jdoe`, `corp\jdoe`, `corp.com\jdoe` and `jdoe@corp.com` where `jdoe` is the *samaccountname*.
 > Depending on the environment the *mail* attribute, e.g. `john.doe@corp.com`, might work for the OWA web login.
