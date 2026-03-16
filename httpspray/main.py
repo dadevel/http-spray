@@ -1,4 +1,4 @@
-from argparse import ArgumentParser, Namespace
+from argparse import ArgumentParser
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Generator
@@ -6,10 +6,8 @@ import csv
 import itertools
 import json
 import random
-import urllib.parse
 
 from requests import Response
-import requests
 import urllib3
 import urllib3.connection
 
@@ -33,7 +31,7 @@ def uint(value: str) -> int:
 
 def main() -> None:
     entrypoint = ArgumentParser()
-    entrypoint.add_argument('-t', '--target', type=urllib.parse.urlparse, required=True, metavar='URL')
+    entrypoint.add_argument('-t', '--target', required=True, metavar='URL')
     entrypoint.add_argument('-m', '--method', choices=tuple(AUTHENTICATION_METHODS), required=True, metavar='|'.join(AUTHENTICATION_METHODS))
     entrypoint.add_argument('--proxy', default=None, metavar='URL')
     entrypoint.add_argument('--threads', type=uint, default=1, metavar='UINT', help='Default: 1')

@@ -1,20 +1,29 @@
 from argparse import Namespace
 import random
 import time
-import urllib.parse
 
 from requests import Response, Session
 
 
 class BaseSpray:
     def __init__(self, opts: Namespace) -> None:
-        self.target = urllib.parse.urlunparse(opts.target)
+        self.target = opts.target
         self.session = Session()
         self.session.verify = False
         if opts.proxy:
             self.session.proxies.update(http=opts.proxy, https=opts.proxy)
-        # set raw url path as internal header, also see 'make_request()'
-        self.session.headers['X-HTTPSpray-Path'] = opts.target.path
+
+        # set raw url path as internal header, also see '_make_request()'
+        if opts.target.startswith('http://'):
+            path: str = opts.target.removeprefix('http://')
+            path = path[path.find('/'):]
+        elif opts.target.startswith('https://'):
+            path = opts.target.removeprefix('https://')
+            path = path[path.find('/'):]
+        else:
+            raise ValueError('invalid target url')
+        self.session.headers['X-HTTPSpray-Path'] = path
+
         self.delay = opts.delay
         self.jitter = opts.jitter
         self.user_agents = opts.user_agents
