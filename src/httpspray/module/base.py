@@ -45,6 +45,7 @@ class BaseSpray:
     def spray(self, credential: tuple[str, str]) -> tuple[Response, dict[str, str|None]]:
         username, password = credential
         response = self.login(username, password)
+        self.session.close()
         result = self.filter(response)
         time.sleep(random.randint(self.delay - self.jitter, self.delay + self.jitter))
         return response, dict(user=username, password=password, **result)
