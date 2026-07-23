@@ -37,7 +37,7 @@ def main() -> None:
     entrypoint.add_argument('--threads', type=uint, default=1, metavar='UINT', help='Default: 1')
     entrypoint.add_argument('--delay', type=uint, default=0, metavar='SECONDS', help='Average delay between requests')
     entrypoint.add_argument('--jitter', type=uint, default=0, metavar='SECONDS', help='Randomizes delay between delay-jitter and delay+jitter')
-    entrypoint.add_argument('--lock-treshold', type=int, default=10, metavar='UINT', help='Abort after N lockouts. Default: 10')
+    entrypoint.add_argument('--lock-treshold', type=int, default=5, metavar='UINT', help='Abort after N lockouts. Default: 5')
     group = entrypoint.add_argument_group('auth')
     group.add_argument('-u', '--user', action='append', default=[], metavar='USER|FILE')
     group.add_argument('-p', '--password', action='append', default=[], metavar='PASS|FILE')
